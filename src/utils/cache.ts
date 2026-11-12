@@ -40,6 +40,7 @@ let isRedisTried: boolean = false;
 
 // Redis 连接状态
 const ensureRedisConnection = async () => {
+  if (!config.REDIS_ENABLED) return;
   if (isRedisTried) return;
   try {
     if (redis.status !== "ready" && redis.status !== "connecting") await redis.connect();
@@ -131,8 +132,10 @@ export const setCache = async (
 export const delCache = async (key: string): Promise<boolean> => {
   let redisSuccess = true;
   try {
-    await redis.del(key);
-    logger.info(`🗑️ [REDIS] ${key} has been deleted from Redis`);
+    if (isRedisAvailable) {
+      await redis.del(key);
+      logger.info(`🗑️ [REDIS] ${key} has been deleted from Redis`);
+    }
   } catch (error) {
     redisSuccess = false;
     logger.error(

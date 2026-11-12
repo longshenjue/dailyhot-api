@@ -5,7 +5,6 @@
 .idea
 .vscode
 Dockerfile*
-LICENSE
 Procfile
 node_modules
 test
@@ -35,3 +34,9 @@ vercel.json
 .git/index
 .git/info
 .git/hooks
+
+# Never send local secrets, logs, or Git credentials into the Docker build context.
+.git
+logs
+.env*
+!.env.example

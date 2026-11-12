@@ -211,3 +211,23 @@ sh ./deploy.sh
 ## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=imsyy/DailyHotApi&type=Date)](https://star-history.com/#imsyy/DailyHotApi&Date)
+
+
+## Northflank deployment
+
+Create a Combined Service from this repository, branch `main`, using the root
+`Dockerfile`. Keep the Docker CMD unchanged. Expose container port `6688` only to
+your project internal network. Runtime settings:
+
+```dotenv
+NODE_ENV=docker
+PORT=6688
+TZ=Asia/Shanghai
+REDIS_ENABLED=false
+USE_LOG_FILE=false
+```
+
+The image defaults to the built-in memory cache, so no Redis service is required.
+For Redis-backed caching, set `REDIS_ENABLED=true` and configure the Redis host.
+Use the actual internal DNS address of this service as WcCAT's `WCCAT_HOT_API_BASE`.
+Do not use `localhost` for communication between separate service containers.
